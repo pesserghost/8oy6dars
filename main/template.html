@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data</title>
+</head>
+<body>
+    <h1>Foods List</h1>
+    <div id="food-list"></div>
+    <h2>Categories</h2>
+    <div id="category-list"></div>
+
+    <script>
+        // API ga so'rov yuborish
+        // 1. Foods ma'lumotlarini olish
+        fetch('http://127.0.0.1:8000/api/foods/')  // Django API URL
+            .then(response => response.json())
+            .then(data => {
+                console.log('Foods:', data);  // API'dan kelgan ma'lumotni console'ga chiqaramiz
+
+                const foodListDiv = document.getElementById('food-list');
+                data.forEach(food => {
+                    const foodDiv = document.createElement('div');
+                    foodDiv.innerHTML = `<p>${food.name} - ${food.price}</p>`;
+                    foodListDiv.appendChild(foodDiv);
+                });
+            })
+            .catch(error => {
+                console.log('Error fetching foods:', error);
+            });
+
+        // 2. Categories ma'lumotlarini olish
+        fetch('http://127.0.0.1:8000/api/categories/')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Categories:', data);
+
+                const categoryListDiv = document.getElementById('category-list');
+                data.forEach(category => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.innerHTML = `<p>${category.name}</p>`;
+                    categoryListDiv.appendChild(categoryDiv);
+                });
+            })
+            .catch(error => {
+                console.log('Error fetching categories:', error);
+            });
+
+        // 3. Kommentlar ma'lumotlarini olish (Masalan, food_id=1 uchun)
+        fetch('http://127.0.0.1:8000/api/comments/1/')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Comments:', data);
+
+                // Kommentlarni kerakli joyga chiqarish
+            })
+            .catch(error => {
+                console.log('Error fetching comments:', error);
+            });
+    </script>
+</body>
+</html>
