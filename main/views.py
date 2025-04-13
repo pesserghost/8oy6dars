@@ -3,6 +3,12 @@ from rest_framework.response import Response
 from .models import Foods, Category, Comment
 from .serializers import FoodsSerializer, CategorySerializer, CommentSerializer
 
+
+class FoodListView(ListAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    pagination_class = CustomPagination
+
 class FoodsListView(APIView):
     def get(self, request):
         foods = Foods.objects.all()  # Barcha ovqatlarni olish
